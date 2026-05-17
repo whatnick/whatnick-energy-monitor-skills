@@ -20,6 +20,7 @@ Load this overlay for ADE9000_Breakout-specific work. Use it together with the r
 - Routing: F.Cu/B.Cu GND planes and a `Power` netclass for `+3V3`, `AVDDOUT`, and `DVDDOUT`.
 - License marking: back silkscreen includes `TAPR OHL`.
 - 3D CAD: populated parts use project-local STEP models under `models/step/`; full assembly export lives at `exports/step/ADE9000_Breakout.step`.
+- CT jack STEP must match the SMT `Jack_3.5mm_CUI_SJ-3523-SMT_Horizontal` footprint; do not substitute the through-hole `SJ1-3523N` model.
 
 ## Circuit Facts
 
