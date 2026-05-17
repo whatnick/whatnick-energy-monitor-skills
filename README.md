@@ -9,7 +9,7 @@ Each top-level skill directory contains a required `SKILL.md` file and optional 
 ## Skills
 
 - `whatnick-energy-monitor-circuit-design`: datasheet-first schematic and analog front-end design for metering IC breakouts.
-- `whatnick-energy-monitor-layout-design`: placement, connector grouping, form-factor conventions, references, markings, and silkscreen practices.
+- `whatnick-energy-monitor-layout-design`: placement, connector grouping, form-factor conventions, STEP model practices, references, markings, and silkscreen cleanup.
 - `whatnick-energy-monitor-routing`: routing priorities, net classes, GND planes, Freerouting, and DRC validation.
 - `whatnick-energy-monitor-pcb-size-shape`: large analog-connector, breadboard-only, PCI/riser, FeatherWing, compact, and bench-board form-factor choices.
 - `ade9000-breakout`: ADE9000_Breakout project overlay for local scripts, topology facts, and KiCad 10 pitfalls.

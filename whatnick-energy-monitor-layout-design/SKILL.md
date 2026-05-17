@@ -1,6 +1,6 @@
 ---
 name: whatnick-energy-monitor-layout-design
-description: Place components on KiCad energy-monitor PCBs for analog accuracy, testability, host compatibility, and routing success. Use for connector grouping across large analog-connector boards, breadboard-only breakouts, PCI/riser modules, and FeatherWings, plus analog/digital partitioning, decoupling placement, reference designators, silkscreen markings, and KiCad Python placement workflows.
+description: Place components on KiCad energy-monitor PCBs for analog accuracy, testability, host compatibility, 3D CAD fit, and routing success. Use for connector grouping across large analog-connector boards, breadboard-only breakouts, PCI/riser modules, and FeatherWings, plus analog/digital partitioning, decoupling placement, project-local STEP models, reference designators, silkscreen markings, and KiCad Python placement workflows.
 compatibility: KiCad 10 workflows; optional scripts use KiCad Python.
 metadata:
   org: whatnick
@@ -20,7 +20,8 @@ Use this skill after the circuit is defined and before routing. The board should
 5. Place decoupling capacitors tight to supply/reference pins with short GND returns.
 6. Put burden/multiplier resistors near current-input connectors before anti-alias filter rows.
 7. Move references to matching silkscreen layers and keep values on Fab layers.
-8. Run placement DRC before routing.
+8. Assign or vendor STEP models for all populated parts that affect enclosure, connector, or assembly fit.
+9. Run placement DRC before routing.
 
 ## Layout Rules
 
@@ -31,6 +32,7 @@ Use this skill after the circuit is defined and before routing. The board should
 - FeatherWings must preserve the host header outline and keep user-facing analog connectors clear of the Feather stacking area.
 - Keep every component, connector, and test-pad reference visible unless it is a mounting hole.
 - Hide mounting-hole references and values.
+- Prefer project-local `${KIPRJMOD}/models/step/...` STEP paths for release-ready boards so CAD export is portable.
 - Add board identity, attribution, license notice, and OSHW logo after electrical/mechanical placement is stable.
 
 See `references/layout-reference.md` for board-family patterns and DRC gates. Use `scripts/move_refs_to_silkscreen.py` as a portable starting point for reference-field cleanup.

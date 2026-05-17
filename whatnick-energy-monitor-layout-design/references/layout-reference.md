@@ -52,6 +52,15 @@
 - Use compact labels around 0.8 mm high with 0.2 mm stroke when DRC allows.
 - Do not leave new silkscreen over pads, mask openings, or board edges.
 
+## 3D STEP Model Practice
+
+- Release boards should use STEP models for all populated parts that affect mechanical fit: IC packages, passives, crystals, LEDs, jacks, terminals, headers, switches, and large jumpers.
+- Mounting-hole footprints and graphical logos may remain model-less unless a spacer, screw, or enclosure part is intentionally represented.
+- Prefer project-local model paths such as `${KIPRJMOD}/models/step/Part.step` once a board is ready to share; this keeps KiCad 3D viewer and CAD exports independent of the user's installed library version.
+- If a footprint references an obsolete library model name, copy a current matching KiCad STEP model into the project and update the footprint model path deliberately.
+- Use `kicad-cli pcb export step --force --subst-models --output exports/step/BOARD.step BOARD.kicad_pcb` to generate a full-board assembly STEP after model paths are clean.
+- When substituting a mechanically equivalent connector model, document the source or approximation in the project README or CAD notes.
+
 ## Placement DRC Gate
 
 Before routing, there should be no new:

@@ -1,6 +1,6 @@
 ---
 name: ade9000-breakout
-description: Apply ADE9000_Breakout-specific KiCad knowledge. Use for ADE9000 Figure 55 schematic work, ATM-style board topology, YHDC clamp burdens, project-local scripts, KiCad 10 validation commands, GND planes, Power netclass routing, and known MCP/KiCad pitfalls. Layer this overlay on the reusable whatnick energy-monitor skills.
+description: Apply ADE9000_Breakout-specific KiCad knowledge. Use for ADE9000 Figure 55 schematic work, ATM-style board topology, YHDC clamp burdens, project-local scripts, KiCad 10 validation/export commands, GND planes, Power netclass routing, project-local STEP models, and known MCP/KiCad pitfalls. Layer this overlay on the reusable whatnick energy-monitor skills.
 compatibility: KiCad 10 project overlay for the ADE9000_Breakout repository.
 metadata:
   org: whatnick
@@ -19,6 +19,7 @@ Load this overlay for ADE9000_Breakout-specific work. Use it together with the r
 - Debug: grouped 0.1 inch digital/debug header on one side.
 - Routing: F.Cu/B.Cu GND planes and a `Power` netclass for `+3V3`, `AVDDOUT`, and `DVDDOUT`.
 - License marking: back silkscreen includes `TAPR OHL`.
+- 3D CAD: populated parts use project-local STEP models under `models/step/`; full assembly export lives at `exports/step/ADE9000_Breakout.step`.
 
 ## Circuit Facts
 
@@ -32,6 +33,14 @@ Load this overlay for ADE9000_Breakout-specific work. Use it together with the r
 - R17-R20 are 2.4R 0402 burden/multiplier resistors across jack-side current pairs.
 
 ## Validation
+
+STEP export:
+
+```powershell
+& "C:\Program Files\KiCad\10.0\bin\kicad-cli.exe" pcb export step --force --subst-models --output exports\step\ADE9000_Breakout.step .\ADE9000_Breakout.kicad_pcb
+```
+
+ERC/DRC:
 
 ```powershell
 & "C:\Program Files\KiCad\10.0\bin\kicad-cli.exe" sch erc --format json --output erc.json .\ADE9000_Breakout.kicad_sch
