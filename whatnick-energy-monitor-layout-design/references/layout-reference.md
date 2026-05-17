@@ -58,7 +58,10 @@
 - Mounting-hole footprints and graphical logos may remain model-less unless a spacer, screw, or enclosure part is intentionally represented.
 - Prefer project-local model paths such as `${KIPRJMOD}/models/step/Part.step` once a board is ready to share; this keeps KiCad 3D viewer and CAD exports independent of the user's installed library version.
 - If a footprint references an obsolete library model name, copy a current matching KiCad STEP model into the project and update the footprint model path deliberately.
-- Do not substitute a different connector family just because the pitch or part number is similar; generate a simple footprint-aligned STEP envelope when the exact model is missing.
+- For connectors, search DigiKey, Mouser, and the manufacturer CAD library for the exact orderable part before approximating. Keep the downloaded source CAD archive beside the generated project-local STEP when licensing allows.
+- Do not substitute a different connector family just because the pitch or part number is similar; if exact CAD is unavailable, generate a simple footprint-aligned STEP envelope and document it as an approximation.
+- Vendor STEP files often use a mechanical CAD frame rather than the KiCad footprint frame. Measure pads, locating pegs, and insertion side against the official footprint; bake any required rotation/offset into the project-local STEP instead of relying on per-footprint transform guesses.
+- Use AP214 STEP presentation entities for display colors when possible. Avoid WRL color workarounds for release assets because unit/scale assumptions can make connectors appear oversized in KiCad.
 - Use `kicad-cli pcb export step --force --subst-models --output exports/step/BOARD.step BOARD.kicad_pcb` to generate a full-board assembly STEP after model paths are clean.
 - When substituting a mechanically equivalent connector model, document the source or approximation in the project README or CAD notes.
 
