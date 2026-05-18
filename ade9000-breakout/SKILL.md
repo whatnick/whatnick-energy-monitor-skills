@@ -17,6 +17,7 @@ Load this overlay for ADE9000_Breakout-specific work. Use it together with the r
 - Envelope: 65 mm x 55 mm rounded board with four M2 NPTH holes.
 - Inputs: stereo current jacks, voltage screw terminals, YHDC current-output clamp burden support.
 - Debug: grouped 0.1 inch digital/debug header on one side.
+- `J1` uses the project-local SparkFun `1x16_Locking` staggered/friction-fit footprint, placed at `(184.873, 86.1)` with -90 degree rotation so odd-numbered pads stay on the old `x=185.0` route centerline and pins 2-16 run downward.
 - Routing: F.Cu/B.Cu GND planes and a `Power` netclass for `+3V3`, `AVDDOUT`, and `DVDDOUT`.
 - License marking: back silkscreen includes `TAPR OHL`.
 - 3D CAD: populated parts use project-local STEP models under `models/step/`; full assembly export lives at `exports/step/ADE9000_Breakout.step`.
