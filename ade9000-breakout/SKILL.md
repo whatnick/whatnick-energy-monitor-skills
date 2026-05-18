@@ -23,6 +23,7 @@ Load this overlay for ADE9000_Breakout-specific work. Use it together with the r
 - CT jack STEP must match the SMT `Jack_3.5mm_CUI_SJ-3523-SMT_Horizontal` footprint; do not substitute the through-hole `SJ1-3523N` model.
 - CT jack CAD source is the DigiKey/Same Sky `SJ_3523_SMT_TR.zip` archive. Generate the project-local STEP with `scripts/create_sj3523_smt_step.py`, which transforms native Same Sky CAD into KiCad footprint coordinates with the front barrel on the board-edge side and no artificial pad overlays.
 - Prefer AP214-colored STEP for the black jack body and metal contacts; do not use WRL as a color workaround for this connector.
+- Voltage screw terminals use the Phoenix 1x02 P3.50 mm STEP as a 4Ucon substitute with model offset `(0, -0.6, 0)`; keep `J2/J3/J4` on the continuous 3.5 mm pad row at x `155/162/169`.
 
 ## Circuit Facts
 
