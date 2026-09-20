@@ -8,6 +8,9 @@
 - Breadboard-only style: put the main 0.1 inch header on a long edge, keep IC support parts near the IC, and push low-use debug signals to bottom-side test pads.
 - PCI/riser style: place the edge/backplane connector first, then place ICs so analog and host buses fan out from that fixed datum without crossing.
 - FeatherWing style: lock the Feather headers and outline first, then place measurement connectors and mode jumpers where they do not break stacking or USB/battery access.
+- PMOD style: put the host/chain connectors at one short edge, field connectors
+  at the opposite edge, and reserve readable long-edge silkscreen strips so
+  branding does not compete with the analog filter rows.
 
 ## Form-Factor Layout Patterns
 
@@ -39,6 +42,20 @@
 - Keep jumpers reachable when stacked; underside jumpers are acceptable for rarely changed UART/SPI or metering-mode options.
 - Put voltage/current sampling connectors at the outer edges, with labels readable when plugged into a Feather host.
 
+### PMOD Energy Front Ends
+
+- Keep the board identity on a long edge, rotated with the board rather than
+  consuming the central component field.
+- Use `Made for Tiny Tapeout` when the board is intended as Tiny Tapeout
+  companion hardware.
+- Keep field-connector function labels adjacent to their connectors and
+  readable from the insertion edge.
+- A front-side Whatnick mark may occupy a central open area when it does not
+  obscure references or functional labels; keep OSHW, URL, revision/date,
+  licence, and safety detail on the rear when front space is constrained.
+- Connector labels and logos must not force movement of settled analog
+  footprints or copper.
+
 ## Decoupling Placement
 
 - Place each capacitor adjacent to its associated pin, not in a remote capacitor cluster.
@@ -49,7 +66,18 @@
 
 - Reference designators live on the matching silkscreen layer: `F.SilkS` for front-side footprints and `B.SilkS` for back-side footprints.
 - Values stay on Fab layers.
-- Use compact labels around 0.8 mm high with 0.2 mm stroke when DRC allows.
+- Use compact labels and fitted references at 0.8 mm high with 0.2 mm stroke
+  when DRC allows. Apply the convention consistently across the board rather
+  than mixing lighter 0.15 mm reference strokes with 0.2 mm annotations.
+- Align repeated filter-bank references into visually consistent rows and use
+  small reference-only offsets to clear parts and traces.
+- Put the product name and ecosystem statement on F.SilkS; rotate them to
+  follow a long edge when this preserves component readability.
+- Use explicit ecosystem wording such as `Made for Tiny Tapeout`.
+- Prefer the Whatnick logo on F.SilkS when a visible open area exists. Put
+  attribution, `https://whatnick.com`, revision/date, licence, safety warnings,
+  and the OSHW logo on B.SilkS unless the product layout calls for another
+  deliberate hierarchy.
 - Do not leave new silkscreen over pads, mask openings, or board edges.
 
 ## 3D STEP Model Practice

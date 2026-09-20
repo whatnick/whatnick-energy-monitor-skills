@@ -34,5 +34,18 @@ Use this skill after the circuit is defined and before routing. The board should
 - Hide mounting-hole references and values.
 - Prefer project-local `${KIPRJMOD}/models/step/...` STEP paths for release-ready boards so CAD export is portable.
 - Add board identity, attribution, license notice, and OSHW logo after electrical/mechanical placement is stable.
+- Normalize production silkscreen text and fitted references to 0.8 mm height
+  with 0.2 mm stroke where DRC allows; do not leave mixed 0.15/0.2 mm stroke
+  weights on the same board.
+- Put the board name and ecosystem statement on F.SilkS in open perimeter
+  space, rotated to follow the long board edge when that reads more naturally.
+  Use explicit wording such as `Made for Tiny Tapeout`, not an unexplained
+  ecosystem name.
+- Prefer the Whatnick logo on F.SilkS in a central or otherwise visible open
+  area. Keep detailed attribution, project URL, revision/date, licence, safety
+  notices, and the OSHW mark on B.SilkS when the front is assembly-dense.
+- After placement is stable, nudge repeated reference designators into aligned
+  rows with consistent offsets from their parts; do not move footprints merely
+  to improve silkscreen.
 
 See `references/layout-reference.md` for board-family patterns and DRC gates. Use `scripts/move_refs_to_silkscreen.py` as a portable starting point for reference-field cleanup.
