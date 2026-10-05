@@ -80,6 +80,46 @@
   deliberate hierarchy.
 - Do not leave new silkscreen over pads, mask openings, or board edges.
 
+### Tool-Neutral Reconstruction Contract
+
+Capture enough intent to reproduce the markings without depending on a
+particular KiCad file-format revision:
+
+- Define marker classes: fitted component references, connector signals, test
+  signals, board identity, attribution, revision/date, licence, safety, and
+  logos.
+- Record text height, width, stroke, rotation, layer, and a placement datum.
+  Prefer a component anchor, connector pin center, or board edge over opaque
+  editor coordinates.
+- Record exclusions explicitly. Mounting holes, fiducials, tooling holes, and
+  drill-only footprints do not receive component markers.
+- Keep pin labels tied to the connector pin map, not to visual left-to-right
+  order. Mirroring or viewing the back must not silently reverse the electrical
+  meaning.
+- Store logos as project-local vector footprints or another open vector source.
+  Record source repository, scale, target layer, and intended physical size.
+- Keep the board revision and build date as separate semantic fields even when
+  rendered as one text string.
+- Validate physical results: no silk over mask openings, no silk-to-edge or
+  silk-to-silk violations, readable orientation from the normal access side,
+  and no missing fitted references.
+
+For a portable reconstruction manifest, use concepts such as:
+
+```yaml
+silkscreen:
+  production_text: {height_mm: 0.8, width_mm: 0.8, stroke_mm: 0.2}
+  references: {layer: component_side, exclude: [mounting_hole, tooling_hole]}
+  connector_labels: {datum: pin_center, source: electrical_pin_map}
+  logos:
+    - {kind: whatnick, source: project_local_vector, layer: front}
+    - {kind: oshw, source: project_local_vector, layer: back}
+  release_markers: [revision, build_date, licence, safety]
+```
+
+This manifest is intentionally independent of footprint UUIDs, KiCad object
+serialization, and any one ECAD coordinate API.
+
 ## 3D STEP Model Practice
 
 - Release boards should use STEP models for all populated parts that affect mechanical fit: IC packages, passives, crystals, LEDs, jacks, terminals, headers, switches, and large jumpers.

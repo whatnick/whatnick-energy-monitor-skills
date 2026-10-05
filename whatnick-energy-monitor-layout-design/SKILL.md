@@ -47,5 +47,15 @@ Use this skill after the circuit is defined and before routing. The board should
 - After placement is stable, nudge repeated reference designators into aligned
   rows with consistent offsets from their parts; do not move footprints merely
   to improve silkscreen.
+- Treat markings as a reconstructable interface rather than editor decoration:
+  record marker classes, text geometry, semantic layer, placement datum, logo
+  source, and exclusion rules independently of KiCad object IDs.
+- Do not mark mounting or drill-only footprints. Keep their references and
+  values hidden even when all fitted electrical parts are marked.
+- Preserve project-local vector logo footprints and their source/provenance so
+  the same artwork can be regenerated in another KiCad release or translated
+  into another ECAD/MCAD tool.
 
 See `references/layout-reference.md` for board-family patterns and DRC gates. Use `scripts/move_refs_to_silkscreen.py` as a portable starting point for reference-field cleanup.
+Use `scripts/audit_silkscreen.py` to verify production text geometry, reference
+visibility, mounting-hole exclusions, and required logo classes.
