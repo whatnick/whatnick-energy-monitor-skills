@@ -14,6 +14,9 @@ Each top-level skill directory contains a required `SKILL.md` file and optional 
 - `whatnick-energy-monitor-routing`: routing priorities, net classes, GND planes, Freerouting, and DRC validation.
 - `whatnick-energy-monitor-pcb-size-shape`: large analog-connector, breadboard-only, PCI/riser, FeatherWing, compact, and bench-board form-factor choices.
 - `ade9000-breakout`: ADE9000_Breakout project overlay for local scripts, topology facts, and KiCad 10 pitfalls.
+- `stpm3x-breakout`: STPM3x_Breakout project overlay for the compact STPM32
+  analog front end, pin contracts, ground domains, silkscreen, generation
+  scripts, and tool-neutral reconstruction.
 
 ## Layout
 
