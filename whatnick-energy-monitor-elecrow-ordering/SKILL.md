@@ -114,6 +114,7 @@ uploaded archive later. Do not fix a preview by changing correct PCB geometry.
 | Green / purple mask | `label[for=color1]` / `label[for=color7]` |
 | White silkscreen | `label[for=screen1]` |
 | ENIG / immersion gold | `label[for=finish3]` |
+| Lead-free HASL (not leaded HASL) | `label[for=finish2]` |
 | No castellations | `label[for=hole1]` |
 | 1 oz outer copper | `label[for=weight1]` |
 | Ordinary 3-5 working days | Select value `35` in `#formTime` |
@@ -126,6 +127,13 @@ No-stencil state was shown by hidden `.check` and no stencil item in the cart;
 inspect current UI rather than assuming a checkbox API.
 Wait for asynchronous pricing and production-time options to settle. Verify
 checked values and displayed dimensions/filename before adding each job.
+
+If existing quotes have no edit action, replace only their identified cart rows
+through each row's `a[title=Remove]`; never clear the entire cart. Regenerate
+and re-upload ZIPs when fabrication notes change, so the file does not contradict
+the finish selected in the form. Verify replacement rows and uploaded hashes
+again. Respect an explicit lower-cost lead-free HASL choice while recording
+its contact-flatness limitations; do not silently keep ENIG.
 
 ## Verify server-side outcome
 
