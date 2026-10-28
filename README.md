@@ -12,6 +12,7 @@ Each top-level skill directory contains a required `SKILL.md` file and optional 
 - `whatnick-energy-monitor-bom-sourcing`: preferred reusable MPNs, schematic sourcing fields, DigiKey/Mouser checks, and CSV/XLSX BOM export discipline for bulk reel buying.
 - `whatnick-energy-monitor-layout-design`: placement, connector grouping, form-factor conventions, STEP model practices, references, markings, and silkscreen cleanup.
 - `whatnick-energy-monitor-routing`: routing priorities, net classes, GND planes, Freerouting, and DRC validation.
+- `whatnick-energy-monitor-elecrow-ordering`: verified bare-PCB packages, authenticated Playwright uploads, per-design Elecrow quote/cart checks and safe handoff before payment.
 - `whatnick-energy-monitor-pcb-size-shape`: large analog-connector, breadboard-only, PCI/riser, FeatherWing, compact, and bench-board form-factor choices.
 - `ade9000-breakout`: ADE9000_Breakout project overlay for local scripts, topology facts, and KiCad 10 pitfalls.
 - `stpm3x-breakout`: STPM3x_Breakout project overlay for the compact STPM32
