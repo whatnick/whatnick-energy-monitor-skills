@@ -31,6 +31,9 @@ Use this skill after the circuit is defined and before routing. The board should
 - PCI/riser boards must treat the edge connector or backplane connector as the mechanical anchor.
 - FeatherWings must preserve the host header outline and keep user-facing analog connectors clear of the Feather stacking area.
 - Keep every component, connector, and test-pad reference visible unless it is a mounting hole.
+  On boards too dense for that (several hundred 0402 parts, one-sided), hide passive
+  references as a recorded decision and run the silkscreen as a scripted pass after
+  routing; see "Dense Boards" in the layout reference.
 - Hide mounting-hole references and values.
 - Prefer project-local `${KIPRJMOD}/models/step/...` STEP paths for release-ready boards so CAD export is portable.
 - Add board identity, attribution, license notice, and OSHW logo after electrical/mechanical placement is stable.
@@ -55,7 +58,19 @@ Use this skill after the circuit is defined and before routing. The board should
 - Preserve project-local vector logo footprints and their source/provenance so
   the same artwork can be regenerated in another KiCad release or translated
   into another ECAD/MCAD tool.
+- Check the insertion side of card sockets, cable connectors and jacks against the
+  maker's mechanical drawing, with nothing in the insertion path. A socket placed
+  backwards passes DRC and schematic parity.
+- Mounting-hole footprints carry no copper keep-out. Add rule areas for the screw
+  head on the outer layers and pull inner planes back from the hole.
+- Place each decoupling capacitor at the supply pin it serves and check by track
+  distance from that pin; "near the IC" and "nearest capacitor on the net" both hide
+  capacitors that serve nothing.
 
 See `references/layout-reference.md` for board-family patterns and DRC gates. Use `scripts/move_refs_to_silkscreen.py` as a portable starting point for reference-field cleanup.
 Use `scripts/audit_silkscreen.py` to verify production text geometry, reference
-visibility, mounting-hole exclusions, and required logo classes.
+visibility, mounting-hole exclusions, and required logo classes; pass
+`--allow-hidden-regex` for reference classes hidden on purpose.
+
+For boards built and placed by script, see the scripted-layout skill. Run scripts
+that import `pcbnew` with the Python interpreter that ships with KiCad.

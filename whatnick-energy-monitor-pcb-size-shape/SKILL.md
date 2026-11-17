@@ -29,5 +29,21 @@ Use this skill when choosing the board envelope, rounded corners, mounting holes
 - Keep holes outside component courtyards and away from copper, zones, silkscreen, and connector keepouts.
 - Put field wiring connectors where cables naturally leave the board.
 - Reserve clean routing corridors between connector groups and IC pin banks.
+- A mounting-hole footprint keeps parts out, not copper. Reserve the screw-head
+  or standoff radius (about 3.2 mm for an M3 pan head, more for a washer) on both
+  outer layers and pull inner planes back from the hole.
+- Check which side of a card socket or cable connector faces the board edge against
+  the maker's drawing before fixing the outline around it.
+- When shrinking a board, re-plan the arrangement; do not scale coordinates.
+  Connectors and switches do not shrink, so they collide first. Compare candidate
+  floorplans as courtyard rectangles drawn to scale, with the fill (courtyard area
+  over board area) noted. One 300-part, one-sided, four-layer board routed easily at
+  54% fill and with difficulty at 71%.
+- A larger outline does not fix congestion round fine-pitch parts. If the failing
+  connections are pins walled in beside an LQFP or QFN, change the placement round
+  that part or add layers.
+- Two-row headers take about half the edge length of single-row ones for the same
+  pin count. Shrouded (keyed) headers are much longer than plain ones: a 2x4 shrouded
+  header measured 18.8 mm against 11.2 mm plain.
 
 See `references/size-shape-reference.md` for workspace examples and form-factor-specific rules. Use `scripts/apply_board_dimensions.py` as a starting point for visible board-edge measurements.

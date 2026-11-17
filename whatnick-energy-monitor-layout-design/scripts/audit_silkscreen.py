@@ -25,6 +25,12 @@ def main() -> int:
         help="References treated as mounting/tooling/fiducial features.",
     )
     parser.add_argument(
+        "--allow-hidden-regex",
+        default=None,
+        help="References that may be hidden, e.g. '^(R|C|FB)\\d' on a dense board "
+        "where passives are identified from the fab layer and assembly files.",
+    )
+    parser.add_argument(
         "--require-logo",
         action="append",
         default=[],
@@ -34,6 +40,7 @@ def main() -> int:
 
     board = pcbnew.LoadBoard(str(args.board))
     drill_pattern = re.compile(args.drill_ref_regex, re.IGNORECASE)
+    hidden_ok = re.compile(args.allow_hidden_regex) if args.allow_hidden_regex else None
     failures: list[str] = []
 
     for footprint in board.GetFootprints():
@@ -52,7 +59,8 @@ def main() -> int:
         if reference.upper().startswith("LOGO"):
             continue
         if not field.IsVisible():
-            failures.append(f"{reference}: fitted reference is hidden")
+            if not (hidden_ok and hidden_ok.search(reference)):
+                failures.append(f"{reference}: fitted reference is hidden")
             continue
 
         size = field.GetTextSize()

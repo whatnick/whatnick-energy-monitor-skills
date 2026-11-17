@@ -57,6 +57,7 @@ For each sourced symbol, populate:
 - `Description`
 - `DigiKey`
 - `Mouser`
+- `LCSC` when the board will be assembled by JLCPCB (the part's `C` number)
 
 Use consistent field names across repositories so BOM exporters can group by MPN. If a board has legacy fields, preserve them only when required by its existing exporter and add the standard fields as well.
 
@@ -69,6 +70,21 @@ Use consistent field names across repositories so BOM exporters can group by MPN
 5. Add schematic fields, then export grouped CSV/XLSX BOM outputs from schematic data.
 6. Review the grouped BOM for accidental fragmentation such as `100n`, `100nF`, and `0.1uF` exporting as separate lines.
 7. Check live DigiKey/Mouser stock and packaging before ordering; distributor availability changes faster than the repository.
+8. When a fab will assemble the board, check that fab's stock and part class before
+   the schematic is drawn, not after: a part with no stock there, or outside its
+   basic library, changes the choice. See the jlcpcb-assembly skill.
+
+Record the date beside every stock figure and price that is written into the
+repository, and keep the lookup as a script so it can be re-run on the day of
+ordering. A parts list generated into the schematic (one YAML entry per part,
+copied into symbol fields by the schematic generator) keeps field names and MPNs
+consistent without hand editing; see the schematic-generation skill.
+
+Distributor API notes: Digi-Key's product search API needs a client id and secret
+from developer.digikey.com, supplied through the environment and never committed;
+its access token expires after about 30 minutes, so long-running tools must refresh
+it. Keep credentials files out of `git add -A` by ignoring them before the first
+commit.
 
 ## When Not To Reuse
 
@@ -78,6 +94,9 @@ Choose a different MPN when any of these differ materially:
 - Capacitor dielectric or voltage rating affects filter frequency, reference noise, startup timing, or oscillator behavior.
 - Connector must match an existing enclosure, mating cable, STEP model, board edge, or assembly process.
 - The preferred part is end-of-life, unavailable in useful quantity, or no longer offered in reel-friendly packaging.
+- The preferred part is electrically marginal in this circuit. A cheaper or
+  already-stocked crystal with higher ESR or load capacitance than the IC vendor's
+  reference part is not a like-for-like substitute; check oscillator margin first.
 
 ## Export Discipline
 

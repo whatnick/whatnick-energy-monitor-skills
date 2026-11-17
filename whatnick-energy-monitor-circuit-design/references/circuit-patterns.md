@@ -40,3 +40,27 @@
 - Name connector-side nets by channel and connector role before the anti-alias/filter parts.
 - Keep burden/multiplier, divider, and anti-alias blocks separate even when their values are small; this prevents later layout mistakes.
 - For backplane or Feather host boards, distinguish host-interface voltage domains from metering analog/reference domains in net names and symbols.
+
+## Clock And Oscillator Margin
+
+- Load capacitors: `CL = (C1 * C2) / (C1 + C2) + stray`, with 2 to 5 pF of stray per
+  board. Size them for the crystal's rated load, not by copying another design whose
+  crystal is unknown.
+- Check start-up margin by calculation: `gm_crit = 4 * ESR * (2 * pi * f)^2 * (C0 + CL)^2`
+  against the IC's published oscillator transconductance for the drive setting the
+  firmware will use. A 12.5 pF, 70 kOhm 32.768 kHz crystal can need a microcontroller's
+  highest drive setting where a 7 pF part does not.
+- Where the IC vendor names a reference crystal and warns against deviating, a
+  crystal with higher ESR or load capacitance is a design change that needs the
+  calculation or a bench test, not a sourcing substitution.
+
+## Interfaces To Another Powered Board
+
+- Decide, for each line, what the other board sees in three states: this board off,
+  this board's controller in reset, and the cable half connected. Add the pulls that
+  make each state harmless.
+- A reference rail supplied by the other board through the connector needs a bleed
+  resistor, so it does not float when nothing is plugged in.
+- Use direction-fixed translators for push-pull control and clock lines. Keep
+  auto-direction parts for genuinely bidirectional open-drain buses.
+- Any switch or jumper on a line that something can drive gets a series resistor.

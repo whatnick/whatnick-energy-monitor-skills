@@ -30,5 +30,18 @@ Use this skill once placement is DRC-clean. Route analog, clock, power, and retu
 - PCI/riser boards route the edge connector/backplane fanout first so power, analog, and host buses do not fight for the same neck-down region.
 - FeatherWing boards route host headers and fixed bus pins early, then fit metering analog paths around the host outline.
 - Treat references such as `REF` as precision nodes, not bulk power rails, unless the design requires otherwise.
+- Zero DRC errors and zero unconnected items is the entry ticket to a layout review,
+  not the end of routing. An autorouted board at that state can still have supply
+  nets at signal width, tracks under screw heads, vias in pads and a regulator
+  feedback node 15 mm long. See the design-review skill.
+- On multilayer boards with planes, check the exported DSN before routing: KiCad 10
+  marks plane layers as signal layers, and a DSN exported from the process that built
+  the board can carry default rules instead of the project's net classes. See the
+  freerouting-batches skill.
+- An autorouter given one track width uses it for everything. Route supply nets that
+  are not planes deliberately, at a width chosen for the current.
+
+For dense multilayer boards, scripted critical routes and parallel autorouter runs,
+see the scripted-layout and freerouting-batches skills.
 
 See `references/routing-reference.md` for Freerouting and validation commands. Scripts in `scripts/` are portable utilities for common route cleanup and post-route plane tasks.

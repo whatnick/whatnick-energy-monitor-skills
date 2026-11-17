@@ -29,5 +29,19 @@ Use this skill for electrical design before PCB placement or routing. Start with
 - Add `PWR_FLAG` symbols only where ERC needs proof that a supply is driven.
 - Add no-connect markers only to datasheet-confirmed unused pins.
 - Treat `endpoint_off_grid` as grid hygiene; do not undo proven physical connectivity to silence it.
+- A stock symbol for a similar part is not a symbol for your part. Compare every pin
+  number and name with the datasheet for the exact part and package before using
+  it; one pin that is ground on the older part and a control input on the newer one
+  is enough to change the circuit.
+- Choose the footprint by the maker's package code where the stock library has it,
+  and check the exposed-pad size as well as the pitch.
+- Do not rely on memory for a pin number, strap level or component value. Read it
+  from the document and note which document and revision.
+- For every pin wired to a node that depends on a weak internal pull (reset, boot,
+  enable), check what each connected device does to that node in its own reset state.
+- ERC clean means the drawing is consistent. Have the circuit reviewed against the
+  datasheets by someone who did not draw it before layout starts; see the
+  design-review skill.
 
 See `references/circuit-patterns.md` for reusable analog, power, clock, and debug patterns.
+For schematics emitted by a script instead of drawn, see the schematic-generation skill.

@@ -120,6 +120,52 @@ silkscreen:
 This manifest is intentionally independent of footprint UUIDs, KiCad object
 serialization, and any one ECAD coordinate API.
 
+### Dense Boards: Silkscreen As A Scripted Pass
+
+On a board with a few hundred 0402 parts on one side there is no room for every
+reference, and moving text by hand is lost at the next re-route. Run the silkscreen
+as an idempotent script on the routed board that changes text only, and re-run it
+after every route. What worked on a 300-part, 86 x 64 mm board:
+
+- The pass first removes the board-level text it added last time, so it can be
+  re-run. It never moves footprints or copper; confirm with DRC that unconnected
+  and error counts are unchanged.
+- Hide references of resistors, capacitors and ferrites (values and references stay
+  on the Fab layer; assembly works from the position file). Do the hiding in one
+  place: a later loop that makes every reference visible silently undoes it.
+- For each remaining reference try a short list of positions beside the part and
+  take the first that is clear of pads, other courtyards, other text, holes and the
+  board edge. Largest parts choose first, and switches before those, because their
+  labels are the ones a user reads.
+- Label switches, buttons and jumpers by function (the symbol value: `BOOT`,
+  `RESET`, `ID`), not by reference.
+- A label that finds no clear position goes on the part's own outline as a last
+  resort (readable on the bare board only) or is hidden; print the counts
+  ("37 placed, 8 on the part's own outline, 22 hidden") and list the hidden ones.
+  Letting labels search further out is worse: one landed 11 mm away beside a
+  different part.
+- Put connector pin-outs on the bottom side when the top is full: one label per pin
+  row beside the pins, generated from the pin map, with the MCU port pin beside the
+  signal name where the board is a development target, and a title per connector.
+- **Bottom-side text is read mirrored relative to the top view.** Compose each row in
+  the order the pins appear when the board is turned over, and check it in a
+  bottom-side render. Labels composed in top-view order put the supply label beside
+  the ground pin.
+- Mark every pin that must not see a higher voltage where the cable goes on, not
+  only in a legend elsewhere on the board.
+- Shorten a label only where it would actually collide (a mounting hole), not for
+  the whole connector; and note any row that lost information.
+- Removing paste from an exposed pad that must not be soldered belongs in the same
+  pass. It shows afterwards as one `lib_footprint_mismatch` warning, which is
+  expected.
+- This pass took the silkscreen warnings on that board from about 400 to 3, the rest
+  being footprint graphics at the board edge.
+
+Text of 0.8 mm height with 0.12 to 0.15 mm stroke is below what some fabs state as
+their minimum (JLCPCB's page was read as 1.0 mm and 0.15 mm); decide per fab.
+
+`scripts/audit_silkscreen.py --allow-hidden-regex '^(R|C|FB)\d'` audits such a board.
+
 ## 3D STEP Model Practice
 
 - Release boards should use STEP models for all populated parts that affect mechanical fit: IC packages, passives, crystals, LEDs, jacks, terminals, headers, switches, and large jumpers.
@@ -132,6 +178,15 @@ serialization, and any one ECAD coordinate API.
 - Use AP214 STEP presentation entities for display colors when possible. Avoid WRL color workarounds for release assets because unit/scale assumptions can make connectors appear oversized in KiCad.
 - Use `kicad-cli pcb export step --force --subst-models --output exports/step/BOARD.step BOARD.kicad_pcb` to generate a full-board assembly STEP after model paths are clean.
 - When substituting a mechanically equivalent connector model, document the source or approximation in the project README or CAD notes.
+- For parts with an LCSC number, `uvx easyeda2kicad --lcsc_id C12345 --3d --output DIR`
+  fetches a STEP model, sending only that number. Five of five tried (RJ45, USB-C,
+  microSD, tactile switch, VQFN) were usable; one needed an offset. Their
+  redistribution terms were not established, so keep them out of the repository and
+  commit a fetch script until that is settled.
+- A footprint that names a model KiCad does not ship renders as bare pads. List
+  footprints whose model file is missing before judging a 3D render.
+- Parts marked do-not-populate are omitted from `kicad-cli pcb render`; render a copy
+  with the attribute cleared to see them.
 
 ## Placement DRC Gate
 
