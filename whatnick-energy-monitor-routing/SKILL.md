@@ -28,7 +28,8 @@ Use this skill once placement is DRC-clean. Route analog, clock, power, and retu
 - Bench boards should use a `Power` netclass for supply rails before DSN export; do not blindly post-widen dense routes.
 - Use GND planes for return copper rather than widening every GND trace in dense analog areas.
 - PCI/riser boards route the edge connector/backplane fanout first so power, analog, and host buses do not fight for the same neck-down region.
+- After a connector setback, measure the escape corridor on both layers and reroute complete CT pairs together. Use a chip crossover only if its actual land pattern clears the obstruction without interrupting the CT burden path.
 - FeatherWing boards route host headers and fixed bus pins early, then fit metering analog paths around the host outline.
 - Treat references such as `REF` as precision nodes, not bulk power rails, unless the design requires otherwise.
 
-See `references/routing-reference.md` for Freerouting and validation commands. Scripts in `scripts/` are portable utilities for common route cleanup and post-route plane tasks.
+See `references/routing-reference.md` for constrained CT escape routing, Freerouting and validation commands. Scripts in `scripts/` are portable utilities for common route cleanup and post-route plane tasks.
